@@ -1,0 +1,53 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'PingFang SC', 'Helvetica Neue', sans-serif;
+  background: linear-gradient(180deg, #f5f8ff 0%, #eef3fb 100%);
+  color: #1f2937;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.brand {
+  height: 56px;
+  margin: 12px;
+  border-radius: 12px;
+  background: #0f172a;
+  color: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.admin-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 24px;
+}
+
+.admin-content {
+  padding: 20px;
+}
+
+.login-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+}
