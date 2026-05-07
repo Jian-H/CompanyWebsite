@@ -5,7 +5,7 @@
 body {
   margin: 0;
   font-family: 'PingFang SC', 'Helvetica Neue', sans-serif;
-  background: linear-gradient(180deg, #f5f8ff 0%, #eef3fb 100%);
+  background: #f5f7fb;
   color: #1f2937;
 }
 
@@ -14,11 +14,11 @@ body {
 }
 
 .brand {
-  height: 56px;
-  margin: 12px;
-  border-radius: 12px;
-  background: #0f172a;
-  color: #f8fafc;
+  height: 52px;
+  margin: 12px 14px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #4f46e5, #2563eb);
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,7 +36,33 @@ body {
 }
 
 .admin-content {
-  padding: 20px;
+  padding: 22px;
+  background: #f5f7fb;
+}
+
+.admin-shell {
+  min-height: 100vh;
+}
+
+.admin-sider {
+  border-right: 1px solid #eef1f6;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 16px;
+}
+
+.advantage-row {
+  display: grid;
+  grid-template-columns: 110px 160px 1fr 96px 82px 72px;
+  gap: 12px;
+  align-items: end;
+  padding: 12px;
+  border: 1px solid #eef1f6;
+  border-radius: 8px;
+  background: #fbfcff;
 }
 
 .login-shell {
@@ -50,4 +76,11 @@ body {
 .login-card {
   width: 100%;
   max-width: 420px;
+}
+
+@media (max-width: 900px) {
+  .form-grid,
+  .advantage-row {
+    grid-template-columns: 1fr;
+  }
 }

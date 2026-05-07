@@ -1,14 +1,24 @@
 import {
   Body,
   Controller,
+  Delete,
   ForbiddenException,
   Get,
+  Param,
   Post,
   Put,
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { AppService, type SiteContent, type SiteContentInput } from './app.service';
+import {
+  AppService,
+  type ArticleInput,
+  type HomePageInput,
+  type ProductInput,
+  type SiteContent,
+  type SiteContentInput,
+  type SolutionInput,
+} from './app.service';
 import { AuthGuard } from './auth/auth.guard';
 import {
   AuthService,
@@ -52,6 +62,17 @@ export class AppController {
     return this.appService.getSiteContent();
   }
 
+  @Get('public/home-page')
+  async getPublicHomePage() {
+    return this.appService.getPublicHomePage();
+  }
+
+  @Get('public/articles/:id')
+  async getPublicArticle(@Param('id') id: string) {
+    const articles = await this.appService.listArticles();
+    return articles.find((article) => article.id === Number(id) && article.isPublished) ?? null;
+  }
+
   @Post('admin/auth/login')
   async login(@Body() payload: LoginRequest): Promise<AuthTokenResponse> {
     return this.authService.login(payload.username, payload.password);
@@ -80,6 +101,106 @@ export class AppController {
   @UseGuards(AuthGuard)
   async getAdminSiteContent(): Promise<SiteContent> {
     return this.appService.getSiteContent();
+  }
+
+  @Get('admin/home-page')
+  @UseGuards(AuthGuard)
+  async getAdminHomePage() {
+    return this.appService.getAdminHomePage();
+  }
+
+  @Put('admin/home-page')
+  @UseGuards(AuthGuard)
+  async updateHomePage(
+    @Body() payload: HomePageInput,
+    @Req() request: RequestWithUser,
+  ) {
+    const operator = request.user?.username ?? 'unknown';
+    return this.appService.updateHomePage(payload, operator);
+  }
+
+  @Get('admin/products')
+  @UseGuards(AuthGuard)
+  listProducts() {
+    return this.appService.listProducts();
+  }
+
+  @Post('admin/products')
+  @UseGuards(AuthGuard)
+  createProduct(@Body() payload: ProductInput, @Req() request: RequestWithUser) {
+    return this.appService.createProduct(payload, request.user?.username ?? 'unknown');
+  }
+
+  @Put('admin/products/:id')
+  @UseGuards(AuthGuard)
+  updateProduct(
+    @Param('id') id: string,
+    @Body() payload: ProductInput,
+    @Req() request: RequestWithUser,
+  ) {
+    return this.appService.updateProduct(Number(id), payload, request.user?.username ?? 'unknown');
+  }
+
+  @Delete('admin/products/:id')
+  @UseGuards(AuthGuard)
+  deleteProduct(@Param('id') id: string) {
+    return this.appService.deleteProduct(Number(id));
+  }
+
+  @Get('admin/solutions')
+  @UseGuards(AuthGuard)
+  listSolutions() {
+    return this.appService.listSolutions();
+  }
+
+  @Post('admin/solutions')
+  @UseGuards(AuthGuard)
+  createSolution(@Body() payload: SolutionInput, @Req() request: RequestWithUser) {
+    return this.appService.createSolution(payload, request.user?.username ?? 'unknown');
+  }
+
+  @Put('admin/solutions/:id')
+  @UseGuards(AuthGuard)
+  updateSolution(
+    @Param('id') id: string,
+    @Body() payload: SolutionInput,
+    @Req() request: RequestWithUser,
+  ) {
+    return this.appService.updateSolution(Number(id), payload, request.user?.username ?? 'unknown');
+  }
+
+  @Delete('admin/solutions/:id')
+  @UseGuards(AuthGuard)
+  deleteSolution(@Param('id') id: string) {
+    return this.appService.deleteSolution(Number(id));
+  }
+
+  @Get('admin/articles')
+  @UseGuards(AuthGuard)
+  listArticles() {
+    return this.appService.listArticles();
+  }
+
+  @Post('admin/articles')
+  @UseGuards(AuthGuard)
+  createArticle(@Body() payload: ArticleInput, @Req() request: RequestWithUser) {
+    return this.appService.createArticle(payload, request.user?.username ?? 'unknown');
+  }
+
+  @Put('admin/articles/:id')
+  @UseGuards(AuthGuard)
+  updateArticle(
+    @Param('id') id: string,
+    @Body() payload: ArticleInput,
+    @Req() request: RequestWithUser,
+  ) {
+    return this.appService.updateArticle(Number(id), payload, request.user?.username ?? 'unknown');
+  }
+
+  @Delete('admin/articles/:id')
+  @UseGuards(AuthGuard)
+  deleteArticle(@Param('id') id: string) {
+    return this.appService.deleteArticle(Number(id));
   }
 
   @Put('admin/site-content')
